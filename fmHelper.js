@@ -1,7 +1,7 @@
 const {readdirSync} = require('fs');
 
 module.exports = {
-  comapreIds: function (pathA, pathB) {
+  duplicatesCheck: function (pathA, pathB) {
     let filesFolderA = this.getFilesFromFolder(pathA);
     if (this.isEmpty(filesFolderA)) {
       console.log(`no files found in folder: ${pathA}`);
