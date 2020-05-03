@@ -2,12 +2,12 @@ const fm = require('./fmHelper');
 
 const localConfigPath = './config.local.js';
 const localConfig = fm.getLocalConfig(localConfigPath);
+const homeDir = process.env['HOME'];
 
 const baseConfig = {};
-
 baseConfig.fmVersion = 2019;
 baseConfig.fmUserDirs = {};
-baseConfig.fmUserDirs.base = 'Documents/Sports Interactive/Football Manager 2019';
+baseConfig.fmUserDirs.base = homeDir + '/Documents/Sports Interactive/Football Manager 2019';
 baseConfig.fmUserDirs.graphics = baseConfig.fmUserDirs.base + '/graphics';
 baseConfig.fmUserDirs.players = baseConfig.fmUserDirs.graphics + '/players';
 baseConfig.fmUserDirs.logos = baseConfig.fmUserDirs.graphics + '/logos';

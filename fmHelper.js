@@ -35,11 +35,24 @@ module.exports = {
       return arr2.indexOf(val) != -1;
     });
   },
-  getLocalConfig(path) {
+  getLocalConfig: function(path) {
     if (this.isModuleAvailable(path)) {
       const config = require(path);
       return this.isObject(config) ? config : false;
     }
+  },
+  buildPaths: function(dirs, args) {
+    let paths = [];
+    for (let arg of args) {
+      if (this.hasOwnProp(dirs, arg)) {
+        // get path from config
+        paths.push(dirs[arg]);
+      } else {
+        // use passed arg as path
+        paths.push(arg);
+      }
+    }
+    return paths;
   },
   isEmpty: function (files) {
     return !files || !files.length;
@@ -61,5 +74,8 @@ module.exports = {
     }
     Object.assign(target || {}, source);
     return target;
+  },
+  hasOwnProp: function (obj, key) {
+    return Object.prototype.hasOwnProperty.call(obj, key);
   }
 };
