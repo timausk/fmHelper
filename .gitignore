@@ -1,3 +1,6 @@
+# project files
+config.local.js
+
 # Logs
 logs
 *.log

@@ -30,12 +30,36 @@ module.exports = {
       return file.match(/.*\.(?:png)/ig);
     });
   },
-  isEmpty: function (files) {
-    return !files || !files.length;
-  },
   findDublicates: function (arr1, arr2) {
     return arr1.filter(function(val) {
       return arr2.indexOf(val) != -1;
     });
+  },
+  getLocalConfig(path) {
+    if (this.isModuleAvailable(path)) {
+      const config = require(path);
+      return this.isObject(config) ? config : false;
+    }
+  },
+  isEmpty: function (files) {
+    return !files || !files.length;
+  },
+  isObject: function (obj) {
+    return typeof obj === 'object' && obj !== null;
+  },
+  isModuleAvailable: function(path) {
+    try {
+      require.resolve(path);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
+  deepMerge: function (target, source) {
+    for (const key of Object.keys(source)) {
+      if (source[key] instanceof Object) Object.assign(source[key], this.deepMerge(target[key], source[key]));
+    }
+    Object.assign(target || {}, source);
+    return target;
   }
 };
