@@ -14,10 +14,9 @@ module.exports = {
       return;
     }
 
-    let duplicates = this.findDublicates(filesFolderA, filesFolderB);
+    let duplicates = this.findDuplicates(filesFolderA, filesFolderB);
     if (this.isEmpty(duplicates)) {
       console.log('no duplicate files found');
-      return;
     } else {
       console.log('duplicate items found: ');
       duplicates.forEach((item, index) => {
@@ -30,9 +29,9 @@ module.exports = {
       return file.match(/.*\.(?:png)/ig);
     });
   },
-  findDublicates: function (arr1, arr2) {
+  findDuplicates: function (arr1, arr2) {
     return arr1.filter(function(val) {
-      return arr2.indexOf(val) != -1;
+      return arr2.indexOf(val) !== -1;
     });
   },
   getLocalConfig: function(path) {
