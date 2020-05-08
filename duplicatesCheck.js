@@ -8,5 +8,5 @@ if (args.length === 2) {
   let paths = fm.buildPaths(config.fmUserDirs, args);
   fm.duplicatesCheck(paths[0], paths[1]);
 } else {
-  print('you have to pass folder paths as arguments');
+  print.warning('you have to pass folder paths as arguments');
 }
