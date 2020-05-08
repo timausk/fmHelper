@@ -1,24 +1,25 @@
 const {readdirSync} = require('fs');
+const {print} = require('./src/printer');
 
 module.exports = {
   duplicatesCheck: function (pathA, pathB) {
     let filesFolderA = this.getFilesFromFolder(pathA);
     if (this.isEmpty(filesFolderA)) {
-      console.log(`no files found in folder: ${pathA}`);
+      print(`no files found in folder: ${pathA}`);
       return;
     }
 
     let filesFolderB = this.getFilesFromFolder(pathB);
     if (this.isEmpty(filesFolderB)) {
-      console.log(`no files found in folder: ${pathB}`);
+      print(`no files found in folder: ${pathB}`);
       return;
     }
 
     let duplicates = this.findDuplicates(filesFolderA, filesFolderB);
     if (this.isEmpty(duplicates)) {
-      console.log('no duplicate files found');
+      print('no duplicate files found');
     } else {
-      console.log('duplicate items found: ');
+      print('duplicate items found: ');
       duplicates.forEach((item, index) => {
         console.log(`${index}: ${item}`);
       });
