@@ -1,5 +1,6 @@
 const print = require('./src/printer');
 const utils = require('./src/utils');
+const fs = require('fs');
 
 module.exports = {
   duplicatesCheck: function (pathA, pathB) {
@@ -33,18 +34,22 @@ module.exports = {
     }
   },
   
+  /**
+   * @param {object} dirs
+   * @param {object[]} args
+   * @returns {Promise<string[], Error>}
+   */
   buildPaths: function(dirs, args) {
-    let paths = [];
-    for (let arg of args) {
-      console.log({arg});
-      if (utils.hasOwnProp(dirs, arg)) {
-        // get path from config
-        paths.push(dirs[arg]);
-      } else {
-        // use passed arg as path
-        paths.push(arg);
+    return new Promise((resolve, reject) => {
+      let paths = [];
+      for (let arg of args) {
+        let path = utils.hasOwnProp(dirs, arg) ? dirs[arg] : arg;
+        if (!fs.existsSync(path)) {
+          reject(`path [${path}] does not exist`);
+        }
+        paths.push(path);
       }
-    }
-    return paths;
+      resolve(paths);
+    });
   }
 };
