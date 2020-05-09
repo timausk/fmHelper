@@ -1,22 +1,22 @@
-const {readdirSync} = require('fs');
 const print = require('./src/printer');
+const utils = require('./src/utils');
 
 module.exports = {
   duplicatesCheck: function (pathA, pathB) {
-    let filesFolderA = this.getFilesFromFolder(pathA);
-    if (this.isEmpty(filesFolderA)) {
+    let filesFolderA = utils.getFilesFromFolder(pathA);
+    if (utils.isEmpty(filesFolderA)) {
       print.info(`no files found in folder: ${pathA}`);
       return;
     }
 
-    let filesFolderB = this.getFilesFromFolder(pathB);
-    if (this.isEmpty(filesFolderB)) {
+    let filesFolderB = utils.getFilesFromFolder(pathB);
+    if (utils.isEmpty(filesFolderB)) {
       print.info(`no files found in folder: ${pathB}`);
       return;
     }
 
-    let duplicates = this.findDuplicates(filesFolderA, filesFolderB);
-    if (this.isEmpty(duplicates)) {
+    let duplicates = utils.findDuplicates(filesFolderA, filesFolderB);
+    if (utils.isEmpty(duplicates)) {
       print.info('no duplicate files found');
     } else {
       print.ok('duplicate items found: ');
@@ -25,26 +25,19 @@ module.exports = {
       });
     }
   },
-  getFilesFromFolder: function (path) {
-    return readdirSync(path).filter(function(file) {
-      return file.match(/.*\.(?:png)/ig);
-    });
-  },
-  findDuplicates: function (arr1, arr2) {
-    return arr1.filter(function(val) {
-      return arr2.indexOf(val) !== -1;
-    });
-  },
+
   getLocalConfig: function(path) {
-    if (this.isModuleAvailable(path)) {
+    if (utils.isModuleAvailable(path)) {
       const config = require(path);
-      return this.isObject(config) ? config : false;
+      return utils.isObject(config) ? config : false;
     }
   },
+  
   buildPaths: function(dirs, args) {
     let paths = [];
     for (let arg of args) {
-      if (this.hasOwnProp(dirs, arg)) {
+      console.log({arg});
+      if (utils.hasOwnProp(dirs, arg)) {
         // get path from config
         paths.push(dirs[arg]);
       } else {
@@ -53,29 +46,5 @@ module.exports = {
       }
     }
     return paths;
-  },
-  isEmpty: function (files) {
-    return !files || !files.length;
-  },
-  isObject: function (obj) {
-    return typeof obj === 'object' && obj !== null;
-  },
-  isModuleAvailable: function(path) {
-    try {
-      require.resolve(path);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  },
-  deepMerge: function (target, source) {
-    for (const key of Object.keys(source)) {
-      if (source[key] instanceof Object) Object.assign(source[key], this.deepMerge(target[key], source[key]));
-    }
-    Object.assign(target || {}, source);
-    return target;
-  },
-  hasOwnProp: function (obj, key) {
-    return Object.prototype.hasOwnProperty.call(obj, key);
   }
 };

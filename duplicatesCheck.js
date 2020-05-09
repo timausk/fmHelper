@@ -1,6 +1,6 @@
 const fm = require('./fmHelper');
 const config = require('./config');
-const {print} = require('./src/printer');
+const print = require('./src/printer');
 
 const args = process.argv.slice(2);
 
