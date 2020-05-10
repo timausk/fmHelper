@@ -1,5 +1,5 @@
-const fm = require('./fmHelper');
 const config = require('./config');
+const fm = require('./src/helper');
 const print = require('./src/printer');
 const utils = require('./src/utils');
 

@@ -1,4 +1,4 @@
-const utils = require('./src/utils');
+const utils = require('./utils');
 const fs = require('fs');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
       return utils.isObject(config) ? config : false;
     }
   },
-  
+
   /**
    * @param {Object} dirs
    * @param {string[]} args

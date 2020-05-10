@@ -1,4 +1,4 @@
-const fm = require('./fmHelper');
+const fm = require('./src/helper');
 const utils = require('./src/utils');
 const path = require('path');
 
