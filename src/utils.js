@@ -1,12 +1,22 @@
 'use strict';
 
 const {readdirSync} = require('fs');
-
+const {readdir} = require('fs').promises;
+const {extname, join} = require('path');
 
 const getFilesFromFolder = (path) => {
   return readdirSync(path).filter(function(file) {
     return file.match(/.*\.(?:png)/ig);
   });
+};
+
+const getFiles = async (path, extension) => {
+  const files = await readdir(path);
+  return files.filter((file) => _filterByExtension(file, extension));
+};
+
+const joinPath = (...args) => {
+  return join(...args);
 };
 
 const findDuplicates = (arr1, arr2) => {
@@ -46,7 +56,13 @@ const isObject = (obj) => {
   return typeof obj === 'object' && obj !== null;
 };
 
+function _filterByExtension(file, extension) {
+  return extname(file).toLowerCase() === extension;
+}
+
 module.exports = {
+  getFiles,
+  joinPath,
   deepMerge,
   hasOwnProp,
   isModuleAvailable,
